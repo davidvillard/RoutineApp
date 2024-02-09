@@ -1,11 +1,13 @@
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 from flask_cors import CORS
+from flask_compress import Compress
 
 load_dotenv()
 
 app= Flask(__name__)
 CORS(app)  # Habilita CORS para todas las rutas
+compress = Compress(app)
 
 @app.route('/')
 def root():
