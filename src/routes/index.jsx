@@ -4,6 +4,7 @@ import BibliotecaEjercicios from "../components/Ejercicios/BibliotecaEjercicios"
  import { Ejemplo } from "../EjemploPaginaPrincipal";
 
 
+
 const router = createBrowserRouter([
   {
     path: "/",
