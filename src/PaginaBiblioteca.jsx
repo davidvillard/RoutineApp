@@ -1,4 +1,4 @@
-import { useFetch } from "../../useFetch";
+import { useFetch } from "./useFetch";
 import BibliotecaEjercicios from "./components/Ejercicios/BibliotecaEjercicios";
 
 const PaginaBiblioteca = () => {
@@ -37,4 +37,3 @@ const PaginaBiblioteca = () => {
 };
 
 export default PaginaBiblioteca;
-
