@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_compress import Compress
+import logging
 
 load_dotenv()
 
@@ -9,11 +10,8 @@ app= Flask(__name__)
 CORS(app)  # Habilita CORS para todas las rutas
 compress = Compress(app)
 
-@app.route('/')
-def root():
-    return "Ejercicios Gym"
-
-
+# Configuración del sistema de logging
+logging.basicConfig(level=logging.DEBUG)
 
 ''' 
 GET -> obtener informacion
@@ -26,7 +24,8 @@ DELETE -> Borrar informacion
 De alguna manera tengo que almacenar las imagenes en una carpeta y trabajarlas desde esta misma, para no coger fotos de internet.
 '''
 
-ejercicios = [
+def obtener_ejercicios ():
+    return[
     {'id': 1, 'nombre': 'Sentadillas', 'imagen': '../img/sentadillas.jpg'},
     {'id': 2, 'nombre': 'Flexiones','imagen': '../img/flexiones.jpg'},
     {'id': 3, 'nombre': 'Plancha','imagen': '../img/plancha.jpg'},
@@ -49,10 +48,19 @@ ejercicios = [
     {'id': 20, 'nombre': 'Curl con Barra Z','imagen': '../img/curl-barra-z.jpg'}
 ]
 
-#Ruta que obtiene los ejercicios, cuando hagamos una peticion http a /ejercicios nos dara los ejercicios almacenados en nuestra API
+@app.route('/')
+def root():
+    return "Ejercicios Gym"
+
 @app.route('/ejercicios', methods=['GET'])
 def get_ejercicios():
-   return jsonify({'ejercicios': ejercicios}) # Retorna una respuesta JSON
+    try:
+        # Lógica para obtener los ejercicios
+        ejercicios = obtener_ejercicios()
+        return jsonify({'ejercicios': ejercicios})
+    except Exception as e:
+        logging.error(f"Error en la ruta /ejercicios: {str(e)}")
+        return jsonify({'error': 'Ocurrió un error en el servidor'}), 500
 
     
 
